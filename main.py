@@ -28,6 +28,8 @@ def setup():
         saved = True
 
     root.option_add("*Font", "Courier 10")
+    
+    u_adding: StringVar = StringVar(value="Hydrogen")
 
     m_name: StringVar = StringVar()
 
@@ -35,15 +37,17 @@ def setup():
     i_temperature: StringVar = StringVar()
     i_mass: StringVar = StringVar()
 
-    m_name.set("Sol")
-    i_radius.set("6.96e8")
-    i_temperature.set("5778")
-    i_mass.set("1.989e30")
-
     m_name.trace("w", lambda name, index, mode, sv=m_name: unsave())
     i_radius.trace("w", lambda name, index, mode, sv=i_radius: unsave())
     i_temperature.trace("w", lambda name, index, mode, sv=i_temperature: unsave())
     i_mass.trace("w", lambda name, index, mode, sv=i_mass: unsave())
+    
+    def load_preset():
+        m_name.set("Sol")
+        i_radius.set("6.96e8")
+        i_temperature.set("5778")
+        i_mass.set("1.989e30")
+        resave()
 
     def cleanup():
         if not saved:
@@ -99,6 +103,8 @@ def setup():
         tk.Label(root_frame, text="Tool for generating and cataloging information about astral objects.").pack()
         ui_about.mainloop()
 
+    load_preset()
+
     root.protocol("WM_DELETE_WINDOW", exit_cleanly)
 
     menubar = tk.Menu(root)
@@ -113,6 +119,7 @@ def setup():
     edit_menu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Edit", menu=edit_menu)
     edit_menu.add_command(label="Enable / Disable Functions", command=lambda: print("Enable / Disable Functions"))
+    edit_menu.add_command(label="Load Preset", command=load_preset)
 
     help_menu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Help", menu=help_menu)
@@ -142,6 +149,22 @@ def setup():
     add_input("Body Radius (m)", i_radius)
     add_input("Surface Temperature (K)", i_temperature)
     add_input("Mass (kg)", i_mass)
+    
+    frame_elements = tk.Frame(root, width=44)
+    frame_elements.pack(anchor=tk.W, padx=4, pady=4)
+    elements_controls = tk.Frame(frame_elements, width=44)
+    elements_controls.pack(side=tk.TOP)
+
+    tk.Label(elements_controls, width=18, text="Elements").pack()
+
+    elements = ["Hydrogen", "Helium"]
+
+    om = tk.OptionMenu(elements_controls, u_adding, *elements)
+    om.config(width=18)
+    om.pack()
+
+    elements_list = tk.Frame(frame_elements, width=44, height=40, relief=tk.SUNKEN)
+    elements_list.pack(side=tk.TOP)
 
     frame_controls = tk.Frame(root)
     frame_controls.pack(anchor=tk.W, padx=4, pady=4)
