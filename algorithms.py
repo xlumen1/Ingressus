@@ -141,3 +141,7 @@ def perceived_color(spec):
         g /= max_val
         b /= max_val
     return (r, g, b)
+
+# Get The Peak Wavelength in meters
+def peak_wavelength(temp):
+    return 2.897e-3 / temp

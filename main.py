@@ -129,11 +129,11 @@ def setup():
 
     frame_controls = tk.Frame(root)
     frame_controls.pack(anchor=tk.W, padx=4, pady=4)
-    tk.Button(frame_controls, text="Calculate", command=lambda: render(float(i_radius.get()), float(i_temperature.get()), float(i_mass.get()))).pack(side=tk.LEFT, padx=4)
+    tk.Button(frame_controls, text="Calculate", command=lambda: render(float(i_radius.get()), float(i_temperature.get()), float(i_mass.get()), m_name.get())).pack(side=tk.LEFT, padx=4)
 
     root.mainloop()
 
-def render(radius, temperature, mass):
+def render(radius, temperature, mass, name):
     print("Radius:", radius, "m")
     print("Temperature:", temperature, "K")
     print("Mass:", mass, "kg")
@@ -160,7 +160,7 @@ def render(radius, temperature, mass):
 
     plt.xlabel("Wavelength (nm)")
     plt.ylabel("Intensity")
-    plt.title(f"Blackbody Spectrum at {temperature}K")
+    plt.title(f"Blackbody Spectrum of {name} at {temperature}K")
     plt.grid(True)
 
     # Show the spectrum bar below
