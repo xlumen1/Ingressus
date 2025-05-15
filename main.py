@@ -87,6 +87,18 @@ def setup():
         i_mass.set(save_object["mass"])
         resave()
 
+    def about():
+        ui_about = tk.Tk()
+        ui_about.title("About")
+        ui_about.option_add("*Font", "Courier 10")
+
+        root_frame = tk.Frame(ui_about)
+        root_frame.pack(padx=10, pady=10)
+
+        tk.Label(root_frame, text="Ingressus", font=("Courier", 15)).pack()
+        tk.Label(root_frame, text="Tool for generating and cataloging information about astral objects.").pack()
+        ui_about.mainloop()
+
     root.protocol("WM_DELETE_WINDOW", exit_cleanly)
 
     menubar = tk.Menu(root)
@@ -102,6 +114,10 @@ def setup():
     menubar.add_cascade(label="Edit", menu=edit_menu)
     edit_menu.add_command(label="Enable / Disable Functions", command=lambda: print("Enable / Disable Functions"))
 
+    help_menu = tk.Menu(menubar, tearoff=0)
+    menubar.add_cascade(label="Help", menu=help_menu)
+    help_menu.add_command(label="About", command=about)
+    
     root.config(menu=menubar)
 
     master_frame = tk.Frame(root)
