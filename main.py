@@ -155,16 +155,21 @@ def setup():
     elements_controls = tk.Frame(frame_elements, width=44)
     elements_controls.pack(side=tk.TOP)
 
-    tk.Label(elements_controls, width=18, text="Elements").pack()
+    tk.Label(elements_controls, width=10, text="Elements").pack(side=tk.LEFT)
 
     elements = ["Hydrogen", "Helium"]
 
     om = tk.OptionMenu(elements_controls, u_adding, *elements)
-    om.config(width=18)
-    om.pack()
+    om.config(width=21)
+    om.pack(side=tk.LEFT)
+    
+    tk.Button(elements_controls, width=1, text="+").pack(side=tk.LEFT)
+    tk.Button(elements_controls, width=1, text="X").pack(side=tk.LEFT)
 
-    elements_list = tk.Frame(frame_elements, width=44, height=40, relief=tk.SUNKEN)
+    elements_list = tk.Frame(frame_elements, width=44, height=40, relief=tk.SUNKEN, borderwidth=1)
     elements_list.pack(side=tk.TOP)
+    
+    tk.Label(elements_list, width=44, text="Test").pack(side=tk.TOP)
 
     frame_controls = tk.Frame(root)
     frame_controls.pack(anchor=tk.W, padx=4, pady=4)
@@ -196,6 +201,8 @@ def render(radius, temperature, mass, name):
             color=colors[i],
             linewidth=2
         )
+
+    # plt.plot(peak_wavelength(temperature), 1.0, marker='x')
 
     plt.xlabel("Wavelength (nm)")
     plt.ylabel("Intensity")
