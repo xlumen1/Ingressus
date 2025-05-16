@@ -9,6 +9,7 @@ import json
 import tkinter as tk
 import tkinter.messagebox as messagebox
 import tkinter.filedialog
+import tkinter.font
 
 saved = True
 
@@ -41,6 +42,8 @@ def setup():
     i_radius.trace("w", lambda name, index, mode, sv=i_radius: unsave())
     i_temperature.trace("w", lambda name, index, mode, sv=i_temperature: unsave())
     i_mass.trace("w", lambda name, index, mode, sv=i_mass: unsave())
+
+    text_font = tk.font.Font(family="Courier", size=10)
     
     def load_preset():
         m_name.set("Sol")
@@ -151,7 +154,7 @@ def setup():
     add_input("Mass (kg)", i_mass)
     
     frame_elements = tk.Frame(root, width=44)
-    frame_elements.pack(anchor=tk.W, padx=4, pady=4)
+    frame_elements.pack(padx=4, pady=4)
     elements_controls = tk.Frame(frame_elements, width=44)
     elements_controls.pack(side=tk.TOP)
 
@@ -159,20 +162,27 @@ def setup():
 
     elements = ["Hydrogen", "Helium"]
 
+    active_elements = []
+
     om = tk.OptionMenu(elements_controls, u_adding, *elements)
     om.config(width=21)
     om.pack(side=tk.LEFT)
-    
-    tk.Button(elements_controls, width=1, text="+").pack(side=tk.LEFT)
+
+    elements_list = tk.Frame(frame_elements, width=42 * text_font.measure("0"), height=6 * text_font.metrics("linespace"), relief=tk.SUNKEN, borderwidth=1)
+
+    def add_element():
+        active_elements.append(tk.Frame(elements_list, relief=tk.RAISED, borderwidth=1))
+        active_elements[-1].pack(side=tk.TOP, anchor=tk.N)
+        tk.Label(active_elements[-1], text=u_adding.get(), width=42).pack(side=tk.LEFT)
+
+    tk.Button(elements_controls, width=1, text="+", command=add_element).pack(side=tk.LEFT)
     tk.Button(elements_controls, width=1, text="X").pack(side=tk.LEFT)
 
-    elements_list = tk.Frame(frame_elements, width=44, height=40, relief=tk.SUNKEN, borderwidth=1)
     elements_list.pack(side=tk.TOP)
-    
-    tk.Label(elements_list, width=44, text="Test").pack(side=tk.TOP)
+    elements_list.pack_propagate(False)
 
     frame_controls = tk.Frame(root)
-    frame_controls.pack(anchor=tk.W, padx=4, pady=4)
+    frame_controls.pack(padx=4, pady=4)
     tk.Button(frame_controls, text="Calculate", command=lambda: render(float(i_radius.get()), float(i_temperature.get()), float(i_mass.get()), m_name.get())).pack(side=tk.LEFT, padx=4)
 
     root.mainloop()
